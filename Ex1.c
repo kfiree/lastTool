@@ -27,22 +27,30 @@ int main(int argc, char *argv[]){
 
     struct utmp utbuf;
     FILE * fd;
-//    if((fd=open(WTMP_FILE, O_RDONLY))== -1) {
-//        perror(WTMP_FILE);
-//        exit(1);
-//    }
+    
     fd = fopen("/var/log/wtmp", "r ");
     if(!fd){ perror("File not open"); exit(1);}
-
-    fseek(fd,sizeof(utbuf),SEEK_END-log_num*sizeof(utbuf));
+    int len1=ftell(fd);
+    printf("%d\n",len1);
+    fseek(fd,-sizeof(utbuf),SEEK_END);
+    fread(&utbuf,sizeof(struct utmp), 1,fd);
+        if(strcmp(&utbuf.ut_user,"runlevel")!=0 && strcmp(&utbuf.ut_user,"shutdown")!=0) {
+            show_info(&utbuf);
+            log_num--;
+        }
+    fseek(fd,-sizeof(utbuf),SEEK_CUR);
+       
 
     int i = 0;
-    while(log_num>0){
+
+    while((log_num)>0&&(fseek(fd,-2*sizeof(utbuf),SEEK_CUR)!=1)){
         fread(&utbuf,sizeof(struct utmp), 1,fd);
         if(strcmp(&utbuf.ut_user,"runlevel")!=0 && strcmp(&utbuf.ut_user,"shutdown")!=0) {
             show_info(&utbuf);
             log_num--;
         }
+         if(ftell(fd)==384)
+            break;
     }
 
     close(fd);
@@ -101,4 +109,3 @@ void showtime(long timeval){
 //        return;
 //
 //}
-
