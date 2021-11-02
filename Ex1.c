@@ -38,7 +38,7 @@ int main(int argc, char *argv[]){
             show_info(&utbuf);
             log_num--;
         }
-    fseek(fd,-sizeof(utbuf),SEEK_CUR);
+    
        
 
     int i = 0;
@@ -92,20 +92,6 @@ void showtime(long timeval){
 
     printf("%12.16s", cp);
 
-    //printf("%12.12s", cp+4);
+    
 }
-//void show_more(){
-//    struct lastlog *line;
-//    utmpname("/var/log/lastlog");
-//    printf(utmpname);
-//        setutent();
-//        while( (line = getutent()) != NULL) {
-//
-//                        printf("%s,%s,%d", line->ll_host,line->ll_line,line->ll_time);
-//                        printf("\n");
-//
-//        }
-//        endutent();
-//        return;
-//
-//}
+
