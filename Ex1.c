@@ -31,7 +31,6 @@ int main(int argc, char *argv[]){
     fd = fopen("/var/log/wtmp", "r ");
     if(!fd){ perror("File not open"); exit(1);}
     int len1=ftell(fd);
-    printf("%d\n",len1);
     fseek(fd,-sizeof(utbuf),SEEK_END);
     fread(&utbuf,sizeof(struct utmp), 1,fd);
         if(strcmp(&utbuf.ut_user,"runlevel")!=0 && strcmp(&utbuf.ut_user,"shutdown")!=0) {
@@ -59,7 +58,7 @@ int main(int argc, char *argv[]){
 }
 
 void show_info(struct utmp *utbufp){
-
+    int length=0;
     // print username
     printf("%-8.8s", utbufp->ut_user);
     printf(" ");
@@ -74,6 +73,14 @@ void show_info(struct utmp *utbufp){
 
     // print host (version)
     printf("%s", utbufp->ut_host);
+    
+    
+    if(strcmp(utbufp->ut_host, ":0") == 0){
+        
+        printf("              ");
+        
+        
+    }
     printf(" ");
     showtime(utbufp->ut_time);
 
