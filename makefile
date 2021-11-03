@@ -4,21 +4,21 @@ fPIC=-fPIC
 FLAGS=-Wall
 
 
-all: ex1
+all: slast
 
 		
 
 
-ex1: Ex1.c 
-		$(CC) $(FLAGS) Ex1.c -o ex1
+slast: slast.c 
+		$(CC) $(FLAGS) slast.c -g -o slast
 
 
 		
 
 
 
-.PHONY:  ex1 clean all
+.PHONY:  slast all clean
 
 clean:
-		rm -f *.o *.a *.so example
+		rm -f *.o *.a *.so slast
 
